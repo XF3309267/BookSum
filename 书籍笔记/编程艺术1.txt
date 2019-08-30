@@ -1,0 +1,212 @@
+﻿1.  js 中区分大小写字母
+2.  不允许变量名中包含 空格 和 标点符号（美元符号除外）
+3.  变量名 允许包含  字母、数字、美元符号 和 下划线 （不能以数字开头）
+4.  较长变量命名格式： A.  单词间以 下划线 间隔;(一般用于命名变量)   B.  驼峰命名法（一般用于： 函数名、方法名、对象属性名）
+5.  字符串:  字符串中含  单引号 或 双引号
+	A.     字符串中含有 双引号 就用 单引号 括起，反之含有 单引号就用 双引号
+	B.     也可用 转义字符   \'  、 \"  ，如： "about  5'10\"  tall "
+	C.     在编程中 使用单引号还是双引号，应尽量选择使用一种
+6.  数组
+	创建数组:    var  arr =  Array(4);  声明一个长度为 4 的数组
+		  var  arr = Array( );
+	填充数组：   array[index] = element;
+		   var arr1 =  Array("Jack","Bob");
+		   var  arr2 = ["Jack","Bob"];
+	关联数组：  如： var lennon = Array();
+		          lennon["name"] = "Jack";    lennon["year"] = 1940;
+7.  变量
+	A.   全局变量： 不在函数内  或  在函数内没有用  var  声明的变量
+	B.   局部变量：  在函数内使用  var  声明的变量
+	C.   如果在函数内又定义了一个同名的全局变量，则会覆盖之前的全局变量
+
+8.  对象
+        解释:	
+	对象是由一些属性和方法组合在一起而构成的一个数据实体
+	数据含有  属性（property) 和 方法（method）
+	属性是隶属于某个特定对象的变量
+	方法是只有某个特定对象才能调用的函数
+
+        内建对象：	（预先定义好的其他对象，由Javascript语言本身提供的）
+	例如： Array 、 Date （初始化时就已经创建了一个该对象的新实例）
+	（在创建 Date 新实例的时候，Javascript解释器会自动地使用当前的日期和时间进行初始化）
+
+        宿主对象：	由它的运行环境提供的（指的是 浏览器），具体到 Web 应用
+	例如：	Form 、Image、Element、（通过这些对象可获得 网页上的 表单、图像、各种表单等元素）
+9.  节点
+	文档是由节点构成的集合，节点的类型有好多中，例如：元素节点、文本节点点、属性节点
+        
+        元素节点：诸如： <body> 、<p>、<ul>之类的元素，标签名即是元素名
+        文本节点：（TextNode）即元素标签中包含的 内容 包括空格
+        属性节点：是用来对元素做出更具体的描述。例如： titile、class、id
+10.  获取和设置属性
+        getAttribute
+	getAttribute  不属于 document 对象，不能通过 document 对象调用，只能通过元素节点对象调用
+	例如：
+		var  div = document.getElementById("div");
+		alert(div.getAttribute("tittle"));  
+		获取 ID 为 “div”的 div中 title 的内容。有，则输出。无，则输出 null。
+      setAttribute
+	setAttribute  类同
+	object.setAttribute（attribute,value）;第一个参数： 属性名；第二个参数：值；
+	有，则覆盖；	无，则添加；
+       DOM： 对页面内容进行刷新却不需要在浏览器里刷新页面；（例如：setAttribute   对于文档流的该改变）
+11.  childNodes
+	childNodes 属性返回的数组包含所有类型的节点（空格 、换行符都会被解释为 节点）
+12.  nodeType
+	每个节点都有 nodeType 属性
+		元素节点	  nodeType属性值是	1
+		属性节点			2
+		文本节点			3
+13.  nodeValue
+	如果想改变一个文本节点的值，就可用 nodeValue属性获得节点的值。
+	不是文本节点的 nodeValue 是一个空值
+	一般为了 获取某个文本节点的值，可以结合 childNodes、nodeType 和 nodeValue
+14.  window对象的 open() 方法创建新的浏览器窗口
+	window.open(url,name,features)
+		第一个参数：打开网页的url地址，。如果没有这个参数，将弹出一个空白的浏览器窗口。
+		第二个参数：新窗口的名字，代码可以通过这个名字与新窗口进行通信。
+		第三个参数：字符串。字符串中包含新窗口的各种属性。例如：窗口的宽、高。是否有工具条、菜单等
+	例子：
+	      	function popUp(winURL){
+		       window.open(winURL,"name","height=320,width:480");
+		}
+	
+15.  javaScript  伪协议
+	“真”协议 用以在因特网上计算机之间传输数据包
+	“伪”协议是一种非标准化的协议。通过一个链接来调用
+	如上述例子中的方法  popUP()，利用 a 标签链接 winURL；
+
+       A. 	javaScript  伪协议
+	<a   href="javascript:  popUP('http://www.example.com/');"> Example </a>
+	支持 "javascript":伪协议的浏览器中运行正常
+	较老的浏览器会尝试打开不过会失败
+	支持 "javascript":伪协议，但禁用了JavaScript功能的浏览器会什么也不做
+         	不过在 HTML 文档里通过 "javascript":伪协议调用Javascript代码的做法非常不好
+
+       B.	内嵌的事件处理函数
+	<a   href="#" onClick = "popUP('http://www.example.com/'); return false;"> Example </a>
+	记住加入： return   false；
+	因为只有加入后，才可以阻止浏览器的默认行为；
+
+16.  编写  js 代码时，要考虑到  用户的浏览器 是否无JavaScript  或  是否禁用了JavaScript 功能。
+       如上述  A 和 B，都没有考虑到这一点。
+	所以最终采用：
+<a   href="http://www.example.com/" onClick = "popUP('http://www.example.com/'); return false;"> Example </a>
+	升级版：
+	onClick = "popUP(this.href); return  false;"
+17.  对于 16  。我们本该实现，js文件 与 html文件，所以，将触发放至 a标签中，不太稳定。
+       可使用  element.event = action；把事件绑定到某个元素上。
+	如： links[i].onClick = function(){}; (links 数组 是  a标签数组)
+        js 脚本若放在  </body> 之前，浏览器可能一次性加载多个，加载脚本文件时文档可能不完整，没有完整的 DOM。
+       必须让 HTML 文档全部加载到浏览器之后马上开始执行，
+       当 window 对象触发 onload 事件时，document 对象已经存在。
+	可： window.onload = func;   (func  是一个方法，这段写入脚本当中)
+		整个 js 文件链接 放入 </body> 前面
+18.  写 js 脚本，要考虑到兼容性。用 if 判断方法的可用性（对于禁止 js  或  禁止部分 js ）
+19.  尽量少访问DOM 和 尽量减少标记
+	对于查询元素，DOM 查询方式，浏览器会搜索整个 DOM树，所以尽量少使用DOM查询。
+       另外一点： 尽量减少文档中标记数量，过多不必要的元素只会增加 DOM树的 规模，增加查询时间。
+20.  尽量少使用 js外部链接，尽可能合并到一个 js文件 里。
+21.  压缩代码
+	压缩后的代码放到站点上，未压缩的含有注释的 自己看。
+22. addLoadEvent(fun); (fun  表示一个方法或函数)
+	addLoadEvent    专门存放 文档内容加载完毕后需要执行的函数
+	放至 js 脚本中即可
+23.  DOM Core   和   HTML-DOM
+         DOM Core       getE...ID、 getE...Name、getAttribute、setAttribute
+		这些都是   DOM  Core   的组成部分，并不专属于   JavaScript，支持 DOM 的任何一种
+		程序设计语言都可以使用它们，并不仅局限于处理网页，他们可以用来处理用任何一种
+		标记语言（比如  XML）编写的文档。
+         HTML-DOM     
+		onClick  属性等属性属于  HTML-DOM
+	如：document.getElementByTagName("form");
+	可改为： document.forms;
+
+		el.getAttribute("src");
+		**:  el.src
+		el.setAttribute("src",source);
+		el.src = source;
+
+24.  document.createElement()  	创建元素节点
+       document.createTextNode(str)	创建文本节点
+25.  insertBefore  >>>>    parentElement.insertBefore(newElement,targetElement);
+	newElement:	新元素；
+	targetElement：	插到哪个元素（targetElement）之前
+	parentElement：	目标元素的父元素
+       一些 DOM 方法 和 属性：
+	parentNode 	 属性   	该元素的 父级元素
+	lastChild	     	 属性	子集元素的最后一个元素
+	appendChild	方法	将其他元素追加到该元素里
+	insertBefore	方法	在某个元素之前插入	
+	nextSibling	属性	该元素的下一个兄弟元素
+26.  insertAfter （在元素后面插入 元素，自定义函数）
+	function  insertAfter(newEle,tarEle){
+	          var parent = tarEle.parentNode;
+	          if(parent.lastChild == tarEle){
+		parent.appendChild(newEle);
+		}else{
+		parent.insertBefore(newEle,tarEle.nextSibling);
+		}
+	}
+	原理：	
+	        1.  查询目标元素是否是最后一个元素（相对父级元素的子集元素中）
+	        2.  是：  parent.appendChild  插入父级元素中
+	        3.  否：  使用  insertBefore  将元素插入到目标元素的下一个兄弟元素的前面
+27.  Ajax 
+        A. Ajax 主要优势就是对页面的请求以异步的方式发送到服务器
+             Ajax 技术的核心就是  XMLHttpRequest 对象。该对象充当着浏览器中的脚本（客户端）与服务器之间的中间人的角色。
+             以往请求都是由浏览器发出，而 JavaScript 通过这个对象可以子集发送请求，处理响应。
+         
+        B.   一般浏览器获得 XMLHTTP 对象： var request = new  XMLHttpRequest();
+              IE 浏览器获得对象：var request = new  ActiveXObject("Msxml12.XMLHTTP.3.0");
+              但 IE 版本的不同获取方式又不同
+              总结获得对象方式：(JavaScript DOM  编程艺术（第2版）p116)
+
+        C.  例子： request.open("GET","example.txt",true);
+             第三个参数指定请求是否用以异步方式发送和处理
+
+        D.  request.onreadystatechange = function(){} （或   = fun（fun是个函数名））;
+	事件处理函数，它会在服务器给  XMLHttpRequest 对象送回响应是候被触发执行
+        E.  服务器在向  XMLHttpRequest 对象发回响应时，该对象有个  readyState 属性，
+	有  5个值 ：0 (未初始化)、1 (正在加载)、2(加载完毕)、3(表示正在交互)、 4(表示完成)
+        F.  返回的数据要通过两个属性完成， responseText 和 responseXML
+	request.responseText   用以保存文本字符串形式的数据
+	另一个用以保存  Conent-Type 头部中指定为 "text-xml"的数据
+       G.  弊端： 用户无法使用后退按钮 或 无法为特定状态下的页面添加书签
+     Ajax 功能:
+	：(原) 表单的提交，提交至服务器，服务器将取得的数据 与 保存在数据库中的数据比较
+	：(添加 Ajax 功能) 拦截提交表单的请求，让 XMLHttpRequest 请求代发送。就算用户未启动 js 表单照样正常运行。 
+
+28.  <abbr>  和   <acronym>
+       A. 	<abbr>  		含义时缩略语的意思，它是对单词或短语的简写形式的统称。
+	<acronym>	含义是被当成一个单词来读的"首字母的缩写词"。（有点不懂两者的区别）
+       B.  微软 打败了 网景，但微软的IE浏览器直到 IE7 才支持 abbr 元素， IE  拒绝承认 abbr 节点元素的地位,即不识别  abbr 元素。
+
+       C.  为获取 abbr 标签的的  tillte 属性， 可进行筛选>>（ if(current_abbr.childNodes.length<1)  continue; ）
+       D.   element.lastChild  (包括 文本节点)，所以需获得最后一个 元素节点，改为：element.getElementsByTagName("*").lastChild;
+29.  accesskey  	>>>>	快捷键清单
+       A.  该属性额可以把一个元素（如链接） 与 键盘上的某个特定按键关联在一起
+       B.   一些约定熟成的快捷键：
+	accesskey = 1	返回本网站主页的链接
+		= 2	后退到前一页
+		= 4	打开本网站的搜索表单 或 页面 的链接  
+		= 9	本网站联系办法 的链接
+		= 0	查看本网站的快捷清单 
+
+      C.  快捷键用法： Window系统的浏览器里	Alt键  和 特定的按键
+		Mac 系统的浏览器里		Ctrl键 和 特定的按键
+
+30.  三位一体的网页： 结构层、表示层、行为层
+	结构层：  	由HTML 或 XHTML 之类的标记语言负责创建（标签中不包含任何内任何内容）
+	表示层:     	由 CSS 完成，CSS 描述页面内容应该如何呈现
+	行为层：   由 JavaScript语言和DOM处理如何响应事件
+
+31.  style 对象   (即： element.style)
+	style 对象的属性值永远是一个字符串
+32.   var  repeat = “moveElement(' "+elementID+"'，“final_x+”,"final_y+", "+interval+")”;
+        ele.set = setTimeout(repeat,interval);
+ 	解释：  moveElement()  是一个方法，里面是一些参数。
+	（不懂）
+        setTimeout()； 执行函数时，应小心当 setTimeout 执行一个元素时，
+	会出现 上一次setTimeout未结束就执行下一次，所以在一开始加上：
+		if(ele.set){		clearTimeout(ele.set); }  
