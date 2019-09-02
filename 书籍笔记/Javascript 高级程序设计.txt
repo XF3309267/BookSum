@@ -1,4 +1,4 @@
-﻿   1.  标签的位置
+﻿4   1.  标签的位置
 	A.  通常外部文件的引用都放在 </body>标签前面，避免在加载脚本文件时 界面一片空白
 	B.  为 <script> 标签定义 defer 属性， 告诉浏览器先下载后执行. 
 	     defer 属性只适用于外部脚本文件，在  HTML5  中会忽略 嵌入式脚本 设置的defer属性，
@@ -120,6 +120,7 @@
 			//  p2   大于   p1  时确定位置 
 			//  p2   小于   p1  时交换位置 
 			}
+			arr.sort(compare);
 	E. 数组操作方法:  contact()   、 slice() 、  splice() 
 	     contact ( ) 方法	基于  某个数组的所有项  创建一个新的数组。
 		colors.contact( value );   可加参数（可加多个，以逗号隔开），即在原来数组的基础上在数组末尾加上这些 元素。
@@ -231,8 +232,7 @@
 			
 			但 ECMAScript5 明确规定，使用正则表达式字面量必须像直接调用 RegExp构造函数一样，每次创建新的RegExp实例。
 			只有  IE9+  Firefox4+ 和 Chrome 做出了修改。
-
-
+	
 	     4. RegExp 实例属性
 			RegExp 的每个实例都具有下列属性：
 			global： 	布尔值，是否设置了 g 标志
@@ -266,8 +266,84 @@
 			RegExp.lastParen  == RegExp["$+"]
 		其他属性：
 			RegExp.$1 第一个匹配的捕获组，......第九个匹配的捕获组
-		
+	3-3  function 类型
+		1.  所有函数都是function的实例，函数是对象，函数名是指向函数的指针。
+		2.  两种使用函数的方式：
+			a.  函数声明：
+				function sum(n1,n2){
+					return  n1+n2;
+				}
+			b.  函数表达式
+				var sum = function(n1, n2){ return n1+n2; };  //有个分好，类似于赋值变量
+		     函数声明提升，即 在 函数声明的代码之前可以调用函数。  	而函数表达式不行。并且 也会警告意外标识符。
+		     且两者只有这一区别。
+		3.  函数也可赋值给其他变量，  如： otherSum = sum;   两者没有关系，只是都指向同一个函数。
+		4.  函数没有重载，因为一旦使用同样的函数名，就相当于该 变量 指向另外一个函数。
+		5.  函数也可以作为一个值来使用，可以作为参数，也可作为结果（如： return的结果）
+		       作为参数：
+			 function cal(fun,ele){  return fun(ele);}
+			 函数名带括号，表示调用
+		       作为结果：
 
+			2.  将一个带有一个已经传递了实参的函数赋给其他变量（传递了实参必然已经执行，已经执行传递的只有返回结果，而这不是我们要的）
+				所以有了下列： 返回的是一个函数，而该函数 接受了 包含该函数的 参数。
+		
+			  对于函数的 sort() 方法中的函数（arr.sort(compare)）;(compare  函数名)
+			  因为普通的 sort方法 只能比较数字，而不能比较 元素的其他属性
+			  function create( propertyName ){  //  propertyName 元素其中的一个属性
+				return fun(obj1,obj2){
+					var v1 = obj1[propertyName ];
+					var v2 = obj2[propertyName ];
+					//再进行比较  v1  v2 
+				}
+
+				}//  因为返回函数，而 sort 所需要的参数就是函数
+
+			  arr.sort(create("age"));
+		6.  函数内部属性
+			函数内部有两个特殊对象：  arguments  、 this
+		    1.  arguments 不解释，但他有一个 callee的属性，是一个指针，指向拥有这个 arguments 对象的函数，所以 arguments.callee 等价函数名。
+		        特别是在  为求阶乘的函数， num* arguments.callee(num - 1); 
+			(因为考虑函数会赋值给其他变量，而且本身函数名可能会指向其他函数)，不会使函数的执行与函数名紧紧耦合在一起
+			
+		    	this
+			（高三  P 114）
+			函数（函数名：func ）体内的 this，如：this.color(函数体内)；函数若没有赋值给其他对象属性，那指的是 全局的 color，
+			若赋给其他对象属性，this 会指向该对象。但 该对象属性指向的函数 与 func 所指向的是同一个函数。
+		    2.  caller  （Opera 早期版本不适应）
+			function inner(){  
+				alert(inner.caller);   //caller  保存着调用当前函数的函数引用
+				//  inner  可用 arguments.callee  代替实现松散的耦合性
+				//  严格模式下 ： arguments.callee 会发生错误。不能  为 caller属性赋值	
+			}
+		7.  函数属性和方法
+		    1.  每个函数有两个属性：  length    prototype
+			length  	命名参数的个数
+			prototype 	prototype保存了它们所有实例方法， toString()  valueOf() 也都在其中，不过可用通过各种对象实例访问。
+		    2.  每个函数有两个方法：
+			 apply()    call(),  在特定的域中调用函数
+
+			apply() 接受两个参数，一个是在其中运行函数的作用域，另一个是数组
+				function sum (num1,num2){ return num1+num2};
+				function othSum(num1,num2){  return  sum.apply(this,arguments) ;};
+
+			call()   和 apply 一样，不过参数必须是 一个一个列举出来。	  sum.call(this,num1，num2)；
+			函数中  传入  this 作为 this 值（全局中，所以是 window对象）  // 这句有点不懂
+
+		*****   理解：
+				上述函数中的  this，指的是函数本身，这样 arguments 可以直接向 this 取得参数
+			
+			**********  真正用途： 扩充作用域
+				window.color = "red";
+				var o = {color: "blue"};
+				function saycolor(){ alert(this.color); }
+				sayColor.call(o);  	// blue  this 指向 o 对象
+				sayColor.call(this);	//  red
+			//  可以不赋值给 o 对象属性（o.say）后在调用 o.say() 的方法
+		bind() 方法
+			创建一个 函数实例 ，其 this 值会绑定到  传过来的值（例如下面的  o ）
+			var objSayColor = sayColor.bind(o);	
+		
 4 .  数据类型
 	A.  5 种基本数据类型： Undefined 、Null、Boolean、 Number 、 String  。  object  （复杂数据类型）
 	B.  typeof  操作符可以返回下列字符串： undefined、boolean、string、number、object、function
