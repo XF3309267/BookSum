@@ -342,7 +342,78 @@
 			//  可以不赋值给 o 对象属性（o.say）后在调用 o.say() 的方法
 		bind() 方法
 			创建一个 函数实例 ，其 this 值会绑定到  传过来的值（例如下面的  o ）
-			var objSayColor = sayColor.bind(o);	
+			var objSayColor = sayColor.bind(o);
+	3-4.  基本包装类型(ECMAScript 提供了三个特殊的引用类型：Boolean、Number、String)
+	      如： 
+			 var s1 = "string";  
+		 	 var s2 = s1.substring(2);
+		//  基本包装类型：基本类型的引用类型 （Boolean	Number String 等）
+		//  按理基本类型值不是对象，没有属性，更没有方法。
+		//  在第二句代码，后台会自动完成下列步骤：
+		//		1)  创建String一个实例	 	2） 在实例上调用方法		3）销毁这个实例
+
+		var str = new String("string");  创建 String类型实例
+	  a.  引用类型 与 自动创建的基本包装类型的区别
+		使用new操作符创建的引用类型实例，在执行流离开当前作用域之前都一直保存在内存中。
+	        而自动创建的基本包装类型的对象，只存在于一行代码的执行瞬间，然后立即被销毁。为
+	        
+	  b.   Object构造函数也会项工厂方法一样，根据传入数值参数返回相应基本包装类型的实例。如：
+			var obj = new Object("string ");//   传入字符串，返回 String 的实例。传入数值，Number。传入布尔值参数..
+        		alert(typeof obj);    		//   object
+			alert（obj instanceof String）	//   true
+	  c.    使用 new 调用基本包装类型的构造函数（var o = new Number（value）），typeof o = object
+		直接调用同名转型函数（var o = Number（value））。typeof  o = number
+		***************   对象在布尔计算时 始终为 true，除了 null 。因为用 new 创建出的实例是对象，所以必须注意。
+	  d.   	Boolean  
+			valueOf()	返回基本类型值 true、false
+			toString() 	返回字符串  "true"  "false"
+			newBoolean  （使用new 创建的布尔对象实例）； ( newBoolean  instanceof Boolean ) >>>> true
+			valueBoolean （直接设置布尔值的基本类型） ； (valueBoolean  instanceof Boolean ) >>>> false
+	  e.	Number
+			valueOf() 	返回数值
+			toString() 和 toLocaleString()	返回字符串
+ 		Number类型格式化字符串的方法（ Number类型 ）
+		    num.toFixed(2) (指定小数位)  10 >>>  10.00
+		    	若 num 本身小数位，一般浏览器会四舍五入，而 IE 负数会向大的取，正数向小了取
+		    num.toExponential(1)
+			e表示法，参数规定小数位数
+		    num.toPrecision() ，可能返回  fixed格式，也可能返回  指数格式(e表示法）。接受参数，所有数字的位数。
+	  f.   不建议直接实例化 基本类型。因为分不清是对象 还是基本类型数值。
+	  	
+
+	  g.   String 类型
+		1. 基本字符串值都含有 length 属性，返回字符串长度，无论是否是 双字节字符（例如汉字），每个字符也仍然算一个字符
+		2. 字符方法
+			1）str.charAt( num );  		// 返回指定位置的字符 （以 0开始）
+			2) str.charCodeAt( num );	// 返回指定位置字符的字符编码
+			3) str[0]  			// 也可使用方括号访问字符（在 IE7 之前版本显示 undefined）
+		3. 字符串操作方法
+			1） contact
+			var strr = str.contact(v1,v2..);	// 链接字符串，可有多个参数，且原字符串不变。
+			2） 三个基于 某个字符串 创建新的字符串 	
+				slice()   substring()  substr()   都接受两个参数
+			    a.  slice  和 substring  裁剪字符串并返回，第一个参数 起点，第二个终点且不包括，若无该参数，截止末尾）
+			    b.  substr  第一个参数起点，第二个 个数。
+			    c.  若上述方法 有参数是负数
+				 slice  和  substr 会将第一个参数加上字符串长度作为第一个参数，若出现后者参数大于前者，会自动反一下
+					substring 会 将 0 作为该参数
+			
+			   
+		
+		4. 字符串位置方法   var str = "hello world";
+			1) str.indexof("o"); 		//  开头向后搜索val(字符串)， 该方法返回 val 在字符串中的位置 4。
+			2）str.lastIndexof("o");		//  以结尾作位置向前搜素，返回 位置 7。
+			3）str.indexof("o",6)		//  以字符串 6 的位置向后搜索，	返回 7
+			4）str.lastIndexof("o",6)	//  返回  4
+			4） cotact
+
+		5. trim() 方法
+			var strr = str.trim();  // 删除前后置的空格
+			Chrome8+  Firefox3.5+   Safari5+ 还支持非标准的 trimLeft  trimRight ，单独删除前面 或 后面的空格
+		6. 字符串大小写转换
+			toLocaleUpperCase()   toUpperCase()   toLocaleLowerCase()    toLowerCase() 
+			建议使用 地区方法
+
 		
 4 .  数据类型
 	A.  5 种基本数据类型： Undefined 、Null、Boolean、 Number 、 String  。  object  （复杂数据类型）
