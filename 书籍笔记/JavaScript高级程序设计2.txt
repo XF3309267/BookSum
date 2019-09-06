@@ -1,0 +1,46 @@
+1.  面向对象的程序设计 （第六章）
+	a. 属性特性
+		ECMA-262 第 5 版在定义只有内部才用的特性（默认特性），在JavaScript中不能直接访问		为了表示特性是内部值，规范把他们放在方括号中。
+	    a-1  数据属性
+	 	[[Configurable]]: 	
+		 	表示 能否通过 delete 删除从而重新定义属性，能否修改属性的				特性或者能否把属性修改为访问器属性。一般未修改的情况下为 true。
+		[[Enumerable]]: 	
+			表示能否使用 for-in 循环返回属性。一般未修改的情况下true
+		[[Writeable]]:		
+			能否修改属性的值， 默认为 true
+		[[Value]]:		
+			包含这个属性的数据值。读取时，从该位置读取，写入时也是。默认 undefined
+	    a-2  修改属性默认的特性
+		方法： Object.defineProjperty() ,接受三个参数：
+		属性所在对象  
+		属性的名字 
+		描述符对象：该对象属性必须是： configurable 、enumerable、writable、value
+		例子：
+			var person = {};
+			Object.defineProperty(person,"name",{
+				writable: false,    // 设置为不能更改
+				value:  "Nicholas"
+			});
+			alert(person.name);    	// "Nicholas"
+			person.name = "Greg";
+			alert(person.name);	//  "Nicholas"
+		// 非严格模式下指定新值，会被忽略
+		// 严格模式下会导致错误
+		例子（接着上面的语句）:
+			 Object.defineProperty(person,"name",{
+				configurable:	 false,    // 设置为不能删除
+				value:  	"Nicholas"
+			});
+			delete person.name;	//  无效
+		// 非严格模式下指定新值，会被忽略
+		// 严格模式下会导致错误
+		// 一旦把属性定义为不可配置的，就不能再把它变回可配置
+		// 就算把再来一次将其  configurable 设置为： "true",也没用
+
+
+
+
+
+			
+		
+		
