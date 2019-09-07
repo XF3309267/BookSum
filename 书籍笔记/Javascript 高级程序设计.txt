@@ -343,6 +343,7 @@
 		bind() 方法
 			创建一个 函数实例 ，其 this 值会绑定到  传过来的值（例如下面的  o ）
 			var objSayColor = sayColor.bind(o);
+
 	3-4.  基本包装类型(ECMAScript 提供了三个特殊的引用类型：Boolean、Number、String)
 	      如： 
 			 var s1 = "string";  
