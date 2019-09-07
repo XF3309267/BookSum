@@ -158,13 +158,150 @@
         		//  声明 且未赋值的 变量，可以直接使用 且值为 undefined, 使用 typeof 返回 undefined
         		//
         		//  若变量值为 null ， 变量   >>  null      typeof  变量  >>  null
-												}
+									}
+	*********	将构造函数当作函数
+			任何函数，只要通过 new 操作符来调用，他就可以作为构造函数
+			任何函数，不通过 new 操作符来调用，就和普通函数一样
+		例子:
+			//    b-2 中的Person
+			Person("Jack",26,"software");
+			//  在全局中调用函数 this 对象总是指向 Global 对象（浏览器中指的时 window 对象）
+			//  所以可以使用  window.sayName();  方法
+			//  也可以使用  call()  或  apply() 方法 在其他域中使用该方法
+			var   o  = new Object();
+			Person.call(o,"Bob",34,"Policeman");
+			o.sayName();    //  Bob 
+	*********	构造函数的问题
+			函数即 对象，因此每定义一个函数，就实例化一个对象
+			每个 Person 实例都包含一个不同的 function 实例，该种方式创建函数会导致不同的作用域
+				和 标识符解析，但创建函数的机制是一样的。
+			为了解决上述的问题：
+				将函数放置全局当中，而构造函数内部只用一个变量用来承接
+				因为函数中使用的是  this 对象，所以该函数只能在实例中使用，而不能单独使用
+	    b-2   原型模式
+		每一个函数都有一个 prototype 原型对象，
+		原型对象的用途是包含  可以 由特定类型的所有实例  共享的 属性和方法
+		
+		//  实例的属性和方法是共享的 ，就因为 这些属性和方法 创建在 原型上。
+		person1.sayName()  ==  person2.sayName();     //  true
+	         理解原型对象
+		只要创建函数，就会为函数创建一个 prototype 属性 指向 函数的原型对象。
+		默认情况下，原型对象都会自动获得一个 constructor  属性，
+		指向  prototype 属性 所在的函数。（解释：拥有该原型对象的 函数）
+	**********  对于  person1   person2   Person（Person 为 构造函数，person1 person2 对象实例）
+		 Person.prototype       指向   Person 构造函数 的原型对象
+		 person1.prototype     指向    Person.prototype
+	**********   isPrototypeOf()  方法，	用以检测对象的  prototype 是否指向调用对象，如：
+		  Person.prototype.isPrototypeof(person1);     // true
+	**********  getPrototypeOf()  		用以获取这个对象的原型，  如：
+		Object.getPrototypeOf(person1)   == Person.prototype ;    //  true
+		Object.getPrototypeOf(person1) .name  =  "Jack";
+	*********    查找对象的属性时，会现在  实例中寻找，后向原型中寻找，后再向原型的原型寻找，直到找到为止。
+	         属性和方法 的增删改查
+		a.  在对象实例中添加属性，若与   原型对象的 变量有 重名，则会实现覆盖。除非该对象实例中无该变量名，
+		     可使用   delete  person1.name ;    将实例中同名的属性删除，才会与原型的属性（之前的同名的属性） 相连接
+		b.  hasOwnProperty()  
+			检测 给定属性是否在该对象的实例中，如：
+		    	var  person1.name  =  "Lisa";
+			person1.hasOwnProperty("name");	//  true
+	         原型 与 in 操作符
+		a.    for - in
+		b.    alert("name"  in  person1);   //  检测对象中是否有该属性（无论是在原型上  还是对象实例上）
+		c.     function   hasPrototypeProperty(object ,name){
+			return   !object.hasOwnPeoperty(name)  && (name   in   object);
+			//    object   中有  name  属性 就返回  true
+			//   实例对象中含有 name  属性，就返回  true，且再反一下  false
+			//  即   object 存在的属性，且该属性在  原型对象上 时，返回  true
+			//   ***************     对象实例上的属性  可以覆盖原型上的属性    ******** 
+			//  其余情况下返回  false
+			}
+		d.   IE  早期版本有一个bug
+			var  o = {
+				toString:  function(){
+					return   "My  Object";	
+				}
+			};
+			for(var pro in o ){
+				if(prop ==  "toString"){
+					alert("");    	//  在IE中不会显示
+				}
+					}
+			上述例子重写  toString  方法  ，因为 默认  toString 方法  [[Enumerable]]  为false，
+			即不可进行 for 循环而枚举
+			该 bug  也会 影响：  hasOwnProperty()     peopertyEnumerable()  等方法
+		
+			ECMAScript5  也将 constructor 和prototype属性的[[Enumerable]] 特性设置为 false，但
+			不是所有浏览器都是如此。			
+		e.   Object.keys()  方法
+			该方法接受一个对象为参数，返回一个包含所有可枚举属性的字符串数组
+			var  person3 = new  Person();
+			person3.name = "Rob";
+			person3.age = 34;
+			var p3Keys = Object.keys(person3);
+			//  peKeys  >>  "name, age"
+
+			var  allKeys  =  Object.keys(Person.prototype);  // 与书上不符，P54
+			//  谷歌浏览器 返回为 空值
+		      Object.getOwnPropertyNames();   
+			该方法接受一个对象为参数，返回一个包含所有属性的字符串数组(无论是否可枚举)
+			var   keys  = Object.getOwnPropertyNames(person.prototype);
+			//   与书中的不符      有待探讨
+	    b-3   更简单的原型方法
+		function  Person(){};
+		Person.prototype = {
+		      //   本质上完全重写了 默认的  prototype  对象，所以  constructor  会指向新对象的   构造函数
+		      //   虽然    person1   instanceOf  Person   为  true	
+		      //   但   person1.constructor  == Person  为false  ， 不能确定对象类型
+		      //   constructor:  Person,
+		       name:   "Nicholas",
+		        age:   29,
+		        job:   "man",
+		        sayName:  function() {
+			alert(this.name);
+			}
+		}	
+		不过  Person.prototype 的 constructor 不指向  Person
+		再加上一句 ：   constructor:  Person. 就会重新指向  Person
+		 不过 会导致  Person.prototype 的 [[Enumberable]] 设置为  true
+		
+
+		//  兼容  ECMAScript  的浏览器 才可以将  Person.prototype 的 [[Enumberable]] 设置为  false
+		Object.defineProperty(Person.prototype,  "constructor",{
+			enumerable: false,
+			value:  Person
+			});
+		
+
+
+
+			
+
+		
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+
+
+
+   
 
 
 
