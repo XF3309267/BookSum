@@ -281,6 +281,115 @@
 			enumerable: false,
 			value:  Person
 			});
+	c.   继承问题
+		1.  如何编写一个 类 （构造函数）
+			方法写之  其原型上
+			属性写在  构造函数里
+		（a: 可以将方法写在构造函数里，但是每次创建一个实例都会创建一个新对象（因为函数就是对象））
+		（b: 可以将属性写在其原型上，但属性中可能就有数组或其他引用类型的值，会导致属性共享
+		     （即 其创建的实例共享这个引用属性））
+		（c:  ）
+		2.  对于上述的的构造函数的继承
+		  a:  原型式模式
+			将 A的的实例对象  赋给  B，即 B 的 prototype 的拥有 A实例对象有的属性
+			（包括：[[prototype]]  指向A 的原型函数
+			             A 中拥有的属性（A 指的是一个构造函数）
+			   ）
+		     弊端： 
+		          1.  原型式继承  实例 赋给 原型，会将构造函数中的属性 赋给 原型，那就有可能包括 引用类型数值
+		          2.  在用B创建实例时，无法给  A 构造函数传递参数。或者在进行原型对象赋值时就传递参数，那
+		 	B  所创建的实例属性都是一样的，这样 毫无意义
+		
+		b： 原型式继承  （当 继承对象 确定不需要继承了，仅仅只需要复制一份对象实例  可考虑使用该方法）
+		         ******    使用 Object（original）方法 直接复制一份  original 对象，然后返回
+		         ******    Object.create(original,{   属性的覆盖 或 添加  。。。 })，复制对象和修改对象属性，然后返回
+
+
+			
+			和原型模式是一样的，不过原型式继承有单独的函数用以实现  原型式继承，
+			var  sub = Object.create(Super);
+			     function   Object(o){   // o 为对象实例
+				function  F(){}
+				F.prototype = o;
+				return new F();
+			//   返回的是  F 构造函数的一个实例对象
+			
+			}
+
+			或者：  var  sub  = Objcet(Super);
+			但是  Object.create();可以：
+			var sub = Object.create(Super,{
+				name:  {
+					value: "Bob";  // 可以额外设置属性
+				}
+				})
+			弊端：  和原型模式一样，引用类型值 会出现  实例属性共享
+
+  		c:  借用构造函数  （  一般不会用  ）
+			在子类构造函数中使用  Super.call(this);   在子类构造函数的域中调用  Super 函数
+			差不多意思是：  使用 子类构造函数 也可创建  Super可创建的 实例，只是换了个名字，
+			且只会获得 Super 构造函数中的属性
+		         弊端：  上面也说了， 只会获得  构造函数中的属性。所以只有  Super 的属性和方法都放在构造函数中
+			      子类型  才可以说是 继承了  Super类型。但方法写在构造函数中，又会出现重复创建函数对象。
+
+		d:  寄生式构造函数模式
+			使用一个函数封装创建对象的代码 ，如下：
+				function Person(name){
+				   	var  o = new Object();
+					o.name = name;
+					o.sayName = function(){
+						alert(this.name);
+						}
+					return  o;
+					}
+		e:  寄生式继承
+			使用一个函数接收original对象，后5包裹  原型式继承，并在函数中对要返回的对象加以方法
+
+			和寄生式构造函数模型一样的思路，将构造函数封装起来，如下：
+			function  createAnother(original){
+				var clone =   Object(original);
+				//    将  original 实例赋给  clone 原型 
+
+				clone.sayHi = function(){
+					alert("hi");
+					}
+				return clone;
+				//  注意 返回的是  实例对象
+			}
+		弊端：  使用了 Object()  原型模式的方法，引用类型的属性值会在实例中共享		
+
+		f:   寄生组合式继承  
+		    *******  在子类构造函数中使用  父类的 call()  方法（也可传递参数），将 父类构造函数中的属性赋给
+			了  子类构造函数（其实是  子类调用父类的构造函数）。这一系列操作： 父类构造函数说拥有的
+			子类也有
+		    *******  function inheritPrototype(subType,superType){
+				var  prototype = Object(superType,prototype);
+				prototype.constructor = subType;
+				subType.prototype = prototype;
+			}//  将父类原型  赋给  子类原型 
+		总结：  寄生组合式继承，
+		             Sub 构造函数属性 	 仅仅继承  Super 构造函数属性
+		             Sub  构造函数原型属性	 仅仅继承   Super构造函数原型的属性 
+		             在原型链中完完全全复制了一份 构造函数，两者是等价的，只是名字不同而已
+
+		      适用于： 子类不知道是否会进行对其他类型进行继承，而且要求 父类的构造函数 属性与方法的分明，
+			    父类原型不是 其他类型的对象实例赋值而来  （因为实例对象赋值给原型，难免会将实例对象
+			     的引用类型值赋给原型，而出现 实例属性共享）
+			    
+			    
+		         
+
+
+
+
+
+
+		
+
+
+
+
+
 
 
 			
