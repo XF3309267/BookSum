@@ -322,7 +322,7 @@ i ｢wds｣: webpack output is served from /
        1. #### **创建组件 的方式    1  **     （下列写在了  index.js 文件中）
 
           1. ```jsx
-         //  第一种创建组件的方式
+             //  第一种创建组件的方式
              //   组件的首字母必须大写
               function Hello(){
               	return null;
@@ -363,7 +363,7 @@ i ｢wds｣: webpack output is served from /
                                   //  ...arr1  展开 arr1 ,并在此处，添加到了  arr2
                                   //  ************   例子1 的升级   ************
                                   <Hello {...dog}>  <Hello>
-                ```
+              ```
        
           3. **组件抽离**  （即  将组件统一放置一个文件中）
        
