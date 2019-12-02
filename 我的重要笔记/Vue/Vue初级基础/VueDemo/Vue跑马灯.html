@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Vue 跑马灯效果</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link href="css/style.css" rel="stylesheet"> -->
+        <script src="vue..js">
+            
+        </script>
+    </head>
+    <body>
+        <div id="app">
+            <button @click="changed" > 浪起来</button>
+            <button @click="stop" > 停止</button>
+            <h4>
+                {{
+                    msg
+                }}
+            </h4>
+        </div>
+
+
+        <!--  
+            在 vm 实例中，如果想要获取 data 上的数据，或者 methods 中的方法
+            必须通过  this. 什么什么
+            如： 在 methods 中的方法
+            stop(){  可以省略  :function
+                console.log(this.msg);
+            }
+        
+        -->
+        <script>
+            //  VM 实例 会监听 自身的 data 数据，只要数据一改变，就会把最新数据同步到 页面上
+            //  就可以不用考虑 如何把最新数据 渲染到页面上
+            var vm = new Vue({
+                el: '#app',
+                data:{
+                    msg: '猥琐发育，别浪',
+                    intervalId: null
+                },
+                methods:{
+                    changed(){
+                        if(this.intervalId !=null) return;
+                        this.intervalId = setInterval(() =>{
+                        // console.log(this.msg);
+                        const start = this.msg.substring(0,1)
+                        const end = this.msg.substring(1)
+                        this.msg = end + start
+                        },400)
+                    },
+                    stop(){
+                        clearInterval(this.intervalId)
+                        this.intervalId = null
+                    }
+                }
+            })
+        //    console.log(vm.methods)
+        </script>
+    </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Vue cloak</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link href="css/style.css" rel="stylesheet"> -->
+       <style>
+           /* v-cloak 对应着一种  样式 */
+           [v-cloak]{
+               display: none;
+           }
+       </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-cloak , 当  msg 可以显示在 页面上的时候，v-cloak属性就会撤去。所以在此 用以解决  闪烁问题 -->
+            <!-- {{ msg }}  插值表达式，会有闪烁问题（即  vue.js 包还未完全导入，页面呈现的不是  数据，而是 {{msg}} 字符串  ）  -->
+            <p v-cloak >
+            {{
+                msg
+            }}
+            </p>
+
+            <!-- v-text  不会有 闪烁问题，且类似于  innerHtml  覆盖整个  元素 -->
+            <!--  插件表达式 而相当于 变量，插入到  标签中     -->
+            <p v-text="msg">
+
+            </p>
+            <button v-bind:title="tit" v-on:click="show">按钮</button>
+        </div>
+
+        <script src="vue..js"></script>
+        <script>
+            var vm = new Vue({
+                el:'#app',
+                data:{
+                    msg:'12dfs33',
+                    msg2:'<h3> h3h3</h3> ',
+                    tit:'mytitle3333'
+                },
+                methods:{  
+                    show: function (){
+                        alert('hello')
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
+<!-- 
+    **********     数据渲染  至  页面 的几种方式   *****************************
+    1.  {{ msg }}
+    2.  v-text = "msg"
+    3.  v-html = "msg"
+
+    {{ msg }}  插值表达式 和  v-text="msg" 都是传递数据而已。而对于 数据里的  html 标签不识别
+
+    v-html="msg"  可识别数据里的  html 标签（即 可将标签 表现出来）  
+
+
+    ************    数据 绑定 标签属性   ***************************
+    1.  v-bind:
+    2.  ：  （等同于  ：  （英文的  一个 冒号））
+     <button v-bind:title="tit" >按钮</button>           <button :title="tit" >按钮</button>
+     <button v-bind:title="tit + '123' " >按钮</button>
+ 
+     v-bind 会把 " " 里的东西当作是 data 中的一个属性 去解析执行 得出相应的属性值；如上，把 tit 当作一个变量
+
+    ************    标签 事件绑定   ***************************
+    1.  v-on:
+    2.  @   (等同于  v-on:  )
+      <button v-bind:title="tit" v-on:click="show">按钮</button>
+      " " 中写入方法名；
+      哪个 Vue 实例管着他，他就会去 哪个 Vue 实例中的  methods 中找这个方法
+
+ -->
+
+
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>2019/12/02  Vue 第一个demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link href="css/style.css" rel="stylesheet"> -->
+        <script src="../../vue..js"></script>
+    </head>
+    <body>
+        <!--  Vue 实例控制的元素区域    就是我们的  V -->
+        <div id="app">
+            <p>
+                {{
+                    msg
+                }}
+                <!-- data 的所有属性 都可以在 这种  双花括号中使用 -->
+            </p>
+        </div>
+        <script>
+            // 当我们导入了  vue 的包，在浏览器中就多了一个 Vue 的构造函数
+            //  new 出  Vue 实例，就是 MVVM 中的 VM
+            const vm = new Vue({
+                el: '#app',      // 表示当前  new 出 Vue 实例，控制 页面上的 哪个区域;  在此就是控制   上述  id=app  的元素
+                //  data  即  M ，用以存放数据
+                data:{          // data  属性中， 存放  el  中要用到的数据
+                    msg:'Hello  world'
+                    //  通过  Vue 提供的指令，很方便的把数据渲染到  页面上，不需手动操作  DOM 元素
+                    //  【** 前端 Vue之类的框架，不提倡手动操作 DOM 元素   **】
+                }
+            })
+        </script>
+    </body>
+</html>
