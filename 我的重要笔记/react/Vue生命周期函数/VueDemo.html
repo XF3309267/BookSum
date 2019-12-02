@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> testVue</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link href="css/style.css" rel="stylesheet"> -->
+        <script      src="vue.js">
+            
+        </script>
+    </head>
+    <body>
+        <div>
+                <input  v-model="uname"/>
+                <button @click="add"> 添加</button>
+        </div>
+        <div id="app">
+            <ul>
+                <li v-for="item in list" :key=item.id>
+                    <input type="checkbox" >
+                    编号： {{item.id}} ---姓名：{{item.name}} </li>
+            </ul>
+        </div>
+        <script>
+            const vm = new Vue({
+                el:"#app",
+                data:{
+                    uname:'',
+                    list:[
+                        {id:0,name:'嬴政'},
+                        {id:1,name:'吕不韦'},
+                        {id:2,name:'阿珂'}
+                    ]
+                },
+                methods:{
+                    add(){
+                        var newuser = {id:this.list.length,name:this.uname}
+                        console.log("click");
+                        this.list.push(newuser)
+                    }
+                }
+
+            })
+
+        </script>
+    </body>
+</html>
