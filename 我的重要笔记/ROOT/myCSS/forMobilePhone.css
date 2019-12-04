@@ -1,0 +1,79 @@
+@media (max-width: 768px) {
+    .pc-return {
+        display: none;
+    }
+    .return-top {
+        display: block;
+    }
+    .h5-inwork-section {
+        display: block;
+    }
+    .bd-home-inwork {
+        display: none;
+    }
+    .company-section {
+        display: none;
+    }
+    .news-swiper-button-next,
+    .news-swiper-button-prev {
+        display: none;
+        width: 2rem;
+        height: 2rem;
+        margin-top: -1rem;
+        background-size: 2rem 2rem;
+    }
+    .head-sm-img {
+        width: 100%;
+        height: 100%;
+        background-position: center center;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        display: block;
+    }
+    .head-big-img {
+        display: none;
+    }
+    .mid-img {
+        display: none;
+    }
+    .mid-big-img {
+        /* width: 100%; */
+        display: block;
+    }
+    .mid-big-img-a {
+        display: block;
+        padding: 0.6rem 1rem;
+        border-bottom: 1px solid #eee;
+        font-size: 0;
+    }
+    .mid-big-img-a-left {
+        display: inline-block;
+        width: 50%;
+        vertical-align: middle;
+    }
+    .mid-big-img-a-right {
+        width: 50%;
+        display: inline-block;
+        padding-left: 1rem;
+        color: #333;
+        font-size: 1.3rem;
+        line-height: 2.6rem;
+        vertical-align: middle;
+    }
+    .mid-big-img-a-more {
+        display: block;
+        border: 1px solid #2472dc;
+        border-radius: 2rem;
+        width: 8rem;
+        font-size: 1.2rem;
+        line-height: 2.5rem;
+        text-align: center;
+        margin: 2.5rem auto;
+        cursor: pointer;
+        background-color: #2472dc;
+        color: #ffffff;
+    }
+    .dynamic-section {
+        display: none;
+    }
+}

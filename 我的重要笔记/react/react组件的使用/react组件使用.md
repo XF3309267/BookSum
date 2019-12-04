@@ -188,7 +188,7 @@
 
      3.   因为  webpack 识别不了  .css 结尾的文件，需添加  loader
 
-     4. 终端命令行输入 ：`cnpm i style-loader css-loader -D`  
+     4. 终端命令行输入 ：`cnpm i style-loader css-loader -D`  ，执行 默认是最新的版本
 
         -  **注意： style-loader  与   css-loader  的版本问题**
    -  **若 style-loader  和  css-loader 版本是 3.0+的版本，**
@@ -494,7 +494,7 @@
                             
                     //   { test: /\.css$/, use: ['style-loader','css-loader']}    -loader 是 webpack 2 以后必须有的
                                 ]
-                            },
+                            
                     ```
                
                   - 说明：
@@ -519,8 +519,8 @@
                                 			options: {
                                 				modules: {
                                 				mode: 'local',
-                      		// 因为 .scss 文件是自己写的  css 样式
-                      		// 故要对其进行 模块化
+                        		// 因为 .scss 文件是自己写的  css 样式
+                        		// 故要对其进行 模块化
                               				localIdentName: '[path][name]__[local]--[hash:base64:5]',
                                      			},
                              						}

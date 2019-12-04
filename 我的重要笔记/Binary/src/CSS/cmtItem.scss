@@ -1,0 +1,15 @@
+.title{
+    font-size: 14px;
+
+}
+.content{
+    font-size: 12px;
+}
+.cmtbox{
+    border:1px dashed #ccc;
+    margin: 10px;
+    padding: 10px;
+}
+:global(.test){
+    font-style:italic;
+}

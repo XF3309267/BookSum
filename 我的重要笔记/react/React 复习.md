@@ -89,7 +89,7 @@ i ｢wds｣: webpack output is served from /
 
    - 在终端执行命令： `cnpm i html-webpack-plugin -D`  
 
-   - 在 **webpack.config.js 文件** 中写入下列代码：
+   - 在 **webpack.config.js 文件** 中写入下列代码：（webpack.config.js  与 src 同级）
 
      -  
 
@@ -147,10 +147,11 @@ i ｢wds｣: webpack output is served from /
       1. `React.createElement()`    返回 一个虚拟  DOM 元素
          - 方法参数列表说明　　（）
            1.  第一个参数，  创建 元素的类型  字符串形式，如： `'h1'`
-           2.  第二个参数，  DOM 元素的属性，**对象**  或 **对象形式**  或 **null**, 如：                                     `{id: 'myh1',title:'this is a title'}`
+           2.  第二个参数，  DOM 元素的属性，**对象**  或 **对象形式**  或 **null**, 如：           `{id: 'myh1',title:'this is a title'}`
            3. 第三个参数，   子节点   （可能是  虚拟DOM 或  文本节点）
            4. **第三个参数 以及 后面的参数，都是该元素的子节点**
    4.  `ReactDOM.render()`   **将虚拟DOM 渲染到页面上**
+      
       1. 参数1： 要渲染的  虚拟DOM元素
       2. 参数2： 指定页面上的一个容器 ，即虚拟DOM元素要装进哪个   容器（是一个 DOM 元素）
 
@@ -162,14 +163,14 @@ i ｢wds｣: webpack output is served from /
 
     3. **配置  babel**
        
-       1. `cnpm i babel-core babel-loader babel-plugin-transform-runtime  -D`
-       2. `cnpm i babel-preset-env babel-preset-stage-0 babel-preset-react -D`
-          - 将  jsx   转换为  `React.createElement()` 
+       3. `cnpm i @babel/core babel-loader@8 @babel/preset-env @babel/preset-react -D`
+          -  `cnpm i @babel/plugin-transform-runtime`
+       4. - 将  jsx   转换为  `React.createElement()` 
        
     4.  在 webpack.config.js 中 写入下列代码 ，
-
+    
         1.  ```js
-            const path = require('path')
+        const path = require('path')
             const HtmlWebpackPlugin = require('html-webpack-plugin')
             
             const htmlPlugin = new HtmlWebpackPlugin({
@@ -191,7 +192,8 @@ i ｢wds｣: webpack output is served from /
                     ],
                     //  第三方  要放到  module 节点下
                     //  webpack  处理不了的，就会第一时间 找第三方规则
-                    module: {
+                // *********  加了如下 *******************    
+                module: {
                         rules: [ // 是所有第三方的匹配  模块配置规则
                         { test: /\.js|jsx$/, use: 'babel-loader', exclude: /node_modules/},
                     // use:  后面的值，因为只有一个 所以可以写成字符串，多个 可以写成  数组形式
@@ -201,37 +203,39 @@ i ｢wds｣: webpack output is served from /
                 }
             ```
         
-    5.  **在使用  babel  时，因为版本兼容问题，要么安装低版本  babel  **，如我的  babel 配置
+    5. 在使用  babel8.0  时，我的  babel 配置
+    
+       1.  ```jsx
+       "devDependencies": {
+               "@babel/core": "^7.7.4",
+               "@babel/preset-env": "^7.7.4",
+               "@babel/preset-react": "^7.7.4",
+               "babel-loader": "^8.0.6",
+               "html-webpack-plugin": "^3.2.0",
+               "webpack": "^4.41.2",
+               "webpack-cli": "^3.3.10",
+               "webpack-dev-server": "^3.9.0"
+             }
+           ```
+           
+       2. **2019/12/03**
+    
+          
 
-        1.  ```jsx
-             "devDependencies": {
-                "babel-core": "^6.26.3",
-                "babel-loader": "^7.1.5",
-                "babel-plugin-transform-runtime": "^6.23.0",
-                "babel-preset-env": "^1.7.0",
-                "babel-preset-react": "^6.24.1",
-                "babel-preset-stage-0": "^6.24.1",
-                "html-webpack-plugin": "^3.2.0",
-                "webpack": "^4.41.2",
-                "webpack-cli": "^3.3.10",
-                "webpack-dev-server": "^3.9.0"
-              },
-            ```
+       3. **安装 了版本  babel8**。（对于  **react  **  还需去官方文档了解）
 
-        2.   **要么  安装 最新版本  babel** ，不过最新版本  babel，暂未去 了解。而且  7.0 或  8.0 的babel module  配置  也和上面配置不同。（对于  **react  **  还需去官方文档了解）
+    6. **完成上述操作后，需在根目录下 新建一个 文件，文件名为：  .babelrc **
 
-    6.  **完成上述操作后，需在根目录下 新建一个 文件，文件名为：  .babelrc **
+       1.  **.babelrc**  内容如下
 
-        1.  **.babelrc**  内容如下
-
-            1.  ```.babelrc
-                { 
-                    "presets":["env","stage-0","react"],   
-                    "plugins": ["transform-runtime"]
-                }
-                // 说明： 对 7.0 之后的 babel  配置不是这样的。需要了解，看官方文档
-                ```
-
+           1.  ```.babelrc
+           {
+                   "presets":["@babel/preset-env","@babel/preset-react"],
+                   "plugins":["@babel/plugin-transform-runtime"]
+               }
+               // 说明： 对 8.0 的 babel  配置
+               ```
+    
     ------
 
 11. ####   在  JSX  中 写入  JS 代码
